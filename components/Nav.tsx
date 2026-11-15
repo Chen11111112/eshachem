@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { content, type Locale } from "@/lib/content";
+import Seal from "./Seal";
 
 export default function Nav({ locale }: { locale: Locale }) {
   const { company, nav, ui, langSwitch } = content[locale];
@@ -32,9 +33,7 @@ export default function Nav({ locale }: { locale: Locale }) {
     >
       <div className="mx-auto flex h-16 max-w-[104rem] items-center justify-between px-4 md:h-20 md:px-8">
         <a href="#top" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-9 w-9 place-items-center rounded-[3px] bg-seal font-serif text-[13px] font-bold leading-[1.05] text-paper">
-            益<br />協
-          </span>
+          <Seal className="h-9 w-9 shrink-0" />
           <span className="leading-tight">
             <span className="block font-serif text-lg font-bold tracking-[0.2em] text-paper">
               {company.short}
