@@ -66,7 +66,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
         {/* stats */}
         <section className="bg-ink py-20 md:py-28">
-          <div className="mx-auto grid max-w-7xl grid-cols-2 gap-y-12 px-5 md:px-10 lg:grid-cols-4">
+          <div className="mx-auto grid max-w-[104rem] grid-cols-2 gap-y-12 px-4 md:px-8 lg:grid-cols-4">
             {stats.map((s, i) => (
               <Reveal key={s.label} delay={i * 110} className="border-l border-paper/15 pl-5 md:pl-8">
                 <div className="flex items-baseline gap-2">
@@ -81,7 +81,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
         {/* about */}
         <section id="about" className="paper-grain bg-paper py-24 text-ink md:py-36">
-          <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="mx-auto max-w-[104rem] px-4 md:px-8">
             <div className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
               <SectionHead index="01" en="About" title={<>{t.about.title[0]}<br />{t.about.title[1]}</>} />
               <Reveal delay={150} className="relative">
@@ -136,7 +136,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
         {/* history */}
         <section id="history" className="overflow-hidden bg-paper-2 py-24 text-ink md:py-36">
-          <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="mx-auto max-w-[104rem] px-4 md:px-8">
             <SectionHead index="02" en="History" title={t.history.title}>
               {t.history.lead}
             </SectionHead>
@@ -150,7 +150,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
         {/* catalog */}
         <section id="catalog" className="paper-grain bg-paper py-24 text-ink md:py-36">
-          <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="mx-auto max-w-[104rem] px-4 md:px-8">
             <SectionHead index="04" en="Catalog" title={t.catalog.title}>
               {t.catalog.lead}
             </SectionHead>
@@ -185,7 +185,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
 
         {/* contact */}
         <section id="contact" className="bg-ink py-24 md:py-36">
-          <div className="mx-auto max-w-7xl px-5 md:px-10">
+          <div className="mx-auto max-w-[104rem] px-4 md:px-8">
             <Reveal>
               <p className="font-mono text-xs uppercase tracking-[0.35em] text-brass">05 — Contact</p>
               <h2 className="mt-5 font-serif text-4xl font-bold tracking-[0.08em] text-paper md:text-6xl">{t.contact.title}</h2>
@@ -236,7 +236,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
       </main>
 
       <footer className="border-t border-paper/10 bg-ink py-10">
-        <div className="mx-auto flex max-w-7xl flex-col gap-6 px-5 md:flex-row md:items-center md:justify-between md:px-10">
+        <div className="mx-auto flex max-w-[104rem] flex-col gap-6 px-4 md:flex-row md:items-center md:justify-between md:px-8">
           <div>
             <p className="font-serif text-lg font-bold tracking-[0.2em] text-paper">{company.name}</p>
             <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">

@@ -29,7 +29,7 @@ export default function Hero({ locale }: { locale: Locale }) {
         aria-hidden
       />
 
-      <div className="relative mx-auto w-full max-w-7xl px-5 pb-24 pt-32 md:px-10">
+      <div className="relative mx-auto w-full max-w-[104rem] px-4 pb-24 pt-32 md:px-8">
         <p className="fade-up font-mono text-xs uppercase tracking-[0.4em] text-brass" style={d(200)}>
           {hero.eyebrow}
         </p>

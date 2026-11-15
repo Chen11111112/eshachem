@@ -30,7 +30,7 @@ export default function Nav({ locale }: { locale: Locale }) {
           : "border-b border-transparent bg-transparent"
       }`}
     >
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 md:h-20 md:px-10">
+      <div className="mx-auto flex h-16 max-w-[104rem] items-center justify-between px-4 md:h-20 md:px-8">
         <a href="#top" className="flex items-center gap-3" onClick={() => setOpen(false)}>
           <span className="grid h-9 w-9 place-items-center rounded-[3px] bg-seal font-serif text-[13px] font-bold leading-[1.05] text-paper">
             益<br />協
@@ -92,7 +92,7 @@ export default function Nav({ locale }: { locale: Locale }) {
           open ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="flex flex-col px-5 pb-8 pt-2" aria-label={ui.menu}>
+        <nav className="flex flex-col px-4 pb-8 pt-2" aria-label={ui.menu}>
           {nav.map((n) => (
             <a
               key={n.href}

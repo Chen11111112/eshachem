@@ -24,7 +24,7 @@ export default function Partners({ locale }: { locale: Locale }) {
 
   return (
     <section id="partners" className="relative overflow-hidden bg-ink py-24 md:py-36">
-      <div className="mx-auto max-w-7xl px-5 md:px-10">
+      <div className="mx-auto max-w-[104rem] px-4 md:px-8">
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.35em] text-brass">03 — Partners</p>
           <h2 className="mt-5 font-serif text-4xl font-bold leading-tight tracking-[0.08em] text-paper md:text-6xl">
