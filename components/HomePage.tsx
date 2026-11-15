@@ -5,7 +5,7 @@ import Nav from "@/components/Nav";
 import Partners from "@/components/Partners";
 import Reveal from "@/components/Reveal";
 import Timeline from "@/components/Timeline";
-import { company, FOUNDED, marquee, nav, values } from "@/lib/data";
+import { content, FOUNDED, type Locale } from "@/lib/content";
 
 function SectionHead({
   index,
@@ -31,19 +31,22 @@ function SectionHead({
   );
 }
 
-const stats = [
-  { node: <Counter since={FOUNDED} />, unit: "年", label: "深耕台灣化工業界" },
-  { node: <Counter to={9} />, unit: "家", label: "德、日具名代理原廠" },
-  { node: <Counter to={8} />, unit: "地", label: "進口來源國家與地區" },
-  { node: <Counter to={380} suffix="+" />, unit: "項", label: "目錄常備化學品" },
-];
+export default function HomePage({ locale }: { locale: Locale }) {
+  const t = content[locale];
+  const { company, nav, values, marquee } = t;
+  const en = locale === "en";
+  const stats = [
+    { node: <Counter since={FOUNDED} />, unit: t.stats.units[0], label: t.stats.years },
+    { node: <Counter to={9} />, unit: t.stats.units[1], label: t.stats.makers },
+    { node: <Counter to={8} />, unit: t.stats.units[2], label: t.stats.sources },
+    { node: <Counter to={380} suffix="+" />, unit: t.stats.units[3], label: t.stats.items },
+  ];
 
-export default function Home() {
   return (
     <>
-      <Nav />
+      <Nav locale={locale} />
       <main>
-        <Hero />
+        <Hero locale={locale} />
 
         {/* marquee */}
         <div className="marquee overflow-hidden border-y border-paper/10 bg-ink py-5" aria-hidden>
@@ -68,7 +71,7 @@ export default function Home() {
               <Reveal key={s.label} delay={i * 110} className="border-l border-paper/15 pl-5 md:pl-8">
                 <div className="flex items-baseline gap-2">
                   <span className="font-serif text-6xl font-black text-brass-soft md:text-8xl">{s.node}</span>
-                  <span className="font-serif text-xl text-paper/70">{s.unit}</span>
+                  {s.unit && <span className="font-serif text-xl text-paper/70">{s.unit}</span>}
                 </div>
                 <p className="mt-3 text-sm tracking-[0.15em] text-paper/60">{s.label}</p>
               </Reveal>
@@ -80,20 +83,18 @@ export default function Home() {
         <section id="about" className="paper-grain bg-paper py-24 text-ink md:py-36">
           <div className="mx-auto max-w-7xl px-5 md:px-10">
             <div className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
-              <SectionHead index="01" en="About" title={<>頂級的品質，<br />只為您</>} />
+              <SectionHead index="01" en="About" title={<>{t.about.title[0]}<br />{t.about.title[1]}</>} />
               <Reveal delay={150} className="relative">
-                <p className="font-serif text-2xl font-bold leading-[1.9] tracking-[0.1em] text-ink md:text-3xl md:leading-[1.9]">
-                  誠信相待，商業長青；
+                <p className={`font-serif text-2xl font-bold leading-[1.9] tracking-[0.1em] text-ink md:text-3xl md:leading-[1.9] ${en ? "pr-24 md:pr-28" : ""}`}>
+                  {t.about.quote[0]}
                   <br />
-                  平實守道，客源廣進。
+                  {t.about.quote[1]}
                 </p>
                 <p className="mt-8 text-[15px] leading-9 text-ink/75">
-                  經過數十年的辛勤耕耘，益協得以在化工業界佔有一席之地。這都要感謝所有往來的客戶願意給予我們服務的機會，
-                  也感謝所有供應商的鼎力相助，讓我們有更強的競爭力，取得客戶的信任與愛護。
+                  {t.about.body[0]}
                 </p>
                 <p className="mt-5 text-[15px] leading-9 text-ink/75">
-                  未來仍將秉持「誠信」、「平實」、「謙和」的傳統精神，努力加強新產品的開發，
-                  並以全力達成客戶要求為目標，與客戶共創美好的未來。
+                  {t.about.body[1]}
                 </p>
                 <div
                   className="stamp absolute -top-4 right-0 grid h-20 w-20 place-items-center rounded-[4px] border-[3px] border-seal font-serif text-2xl font-black leading-[1.1] text-seal md:-top-8 md:h-24 md:w-24 md:text-3xl"
@@ -136,25 +137,25 @@ export default function Home() {
         {/* history */}
         <section id="history" className="overflow-hidden bg-paper-2 py-24 text-ink md:py-36">
           <div className="mx-auto max-w-7xl px-5 md:px-10">
-            <SectionHead index="02" en="History" title="從迪化街出發">
-              1978 年，益協在台北迪化街掛上招牌。從一間商行到自有辦公室與海外據點，每一步都走得踏實。
+            <SectionHead index="02" en="History" title={t.history.title}>
+              {t.history.lead}
             </SectionHead>
             <div className="mt-16 md:mt-24">
-              <Timeline />
+              <Timeline locale={locale} />
             </div>
           </div>
         </section>
 
-        <Partners />
+        <Partners locale={locale} />
 
         {/* catalog */}
         <section id="catalog" className="paper-grain bg-paper py-24 text-ink md:py-36">
           <div className="mx-auto max-w-7xl px-5 md:px-10">
-            <SectionHead index="04" en="Catalog" title="專注於每個細節">
-              追求卓越的品質。以下為常備與可供應的化學品目錄，可依品名或編號查詢；未列出的品項也歡迎洽詢代尋。
+            <SectionHead index="04" en="Catalog" title={t.catalog.title}>
+              {t.catalog.lead}
             </SectionHead>
             <Reveal className="mt-14">
-              <Catalog />
+              <Catalog locale={locale} />
             </Reveal>
           </div>
         </section>
@@ -171,12 +172,12 @@ export default function Home() {
             <Reveal>
               <span className="mx-auto block h-12 w-px bg-brass" aria-hidden />
               <p className="mt-10 font-serif text-xl font-medium leading-[2.3] tracking-[0.12em] text-paper/90 md:text-2xl md:leading-[2.4]">
-                感謝所有往來的客戶，願意給予我們服務的機會；
-                <br className="hidden md:block" />
-                感謝所有供應商的鼎力相助，使我們走得更遠。
+                {t.thanks.lines[0]}
+                <br className="hidden md:block" />{en ? " " : ""}
+                {t.thanks.lines[1]}
               </p>
               <p className="mt-10 font-serif text-base tracking-[0.3em] text-brass-soft">
-                —— 益協全體人員 致上最高的感謝
+                {t.thanks.sign}
               </p>
             </Reveal>
           </div>
@@ -187,7 +188,7 @@ export default function Home() {
           <div className="mx-auto max-w-7xl px-5 md:px-10">
             <Reveal>
               <p className="font-mono text-xs uppercase tracking-[0.35em] text-brass">05 — Contact</p>
-              <h2 className="mt-5 font-serif text-4xl font-bold tracking-[0.08em] text-paper md:text-6xl">聯絡我們</h2>
+              <h2 className="mt-5 font-serif text-4xl font-bold tracking-[0.08em] text-paper md:text-6xl">{t.contact.title}</h2>
             </Reveal>
 
             <Reveal delay={120} className="mt-14">
@@ -195,7 +196,7 @@ export default function Home() {
                 href={company.telHref}
                 className="group block border-y border-paper/15 py-10 transition-colors hover:border-brass md:py-14"
               >
-                <span className="font-mono text-xs uppercase tracking-[0.3em] text-mute">電話（代表號）</span>
+                <span className="font-mono text-xs uppercase tracking-[0.3em] text-mute">{t.contact.tel}</span>
                 <span className="mt-3 flex items-center justify-between gap-6">
                   <span className="font-serif text-[11vw] font-black leading-none tracking-wide text-paper transition-colors group-hover:text-brass-soft sm:text-7xl lg:text-8xl">
                     {company.tel}
@@ -209,9 +210,9 @@ export default function Home() {
 
             <div className="mt-12 grid gap-10 md:grid-cols-3">
               <Reveal delay={0}>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">地址</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">{t.contact.address}</p>
                 <a
-                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.address)}`}
+                  href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(company.mapQuery)}`}
                   target="_blank"
                   rel="noreferrer"
                   className="ulink mt-3 inline-block pb-1 text-lg leading-8 text-paper"
@@ -220,13 +221,13 @@ export default function Home() {
                 </a>
               </Reveal>
               <Reveal delay={120}>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">電子郵件</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">{t.contact.email}</p>
                 <a href={`mailto:${company.email}`} className="ulink mt-3 inline-block pb-1 text-lg leading-8 text-paper">
                   {company.email}
                 </a>
               </Reveal>
               <Reveal delay={240}>
-                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">傳真</p>
+                <p className="font-mono text-xs uppercase tracking-[0.3em] text-mute">{t.contact.fax}</p>
                 <p className="mt-3 text-lg leading-8 text-paper">{company.fax}</p>
               </Reveal>
             </div>
@@ -239,10 +240,10 @@ export default function Home() {
           <div>
             <p className="font-serif text-lg font-bold tracking-[0.2em] text-paper">{company.name}</p>
             <p className="mt-1 font-mono text-[11px] uppercase tracking-[0.2em] text-mute">
-              {company.en} · Est. {FOUNDED}
+              {company.sub} · Est. {FOUNDED}
             </p>
           </div>
-          <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label="頁尾選單">
+          <nav className="flex flex-wrap gap-x-6 gap-y-2" aria-label={t.ui.footerNav}>
             {nav.map((n) => (
               <a key={n.href} href={n.href} className="ulink pb-0.5 text-sm tracking-[0.12em] text-paper/60 hover:text-paper">
                 {n.label}

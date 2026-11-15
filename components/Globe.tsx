@@ -4,7 +4,9 @@ import { useEffect, useRef } from "react";
 import * as THREE from "three";
 import { feature } from "topojson-client";
 import landTopo from "world-atlas/land-110m.json";
-import { regions, TAIPEI } from "@/lib/data";
+import { content, TAIPEI } from "@/lib/content";
+
+const regions = content.zh.regions; // geography is identical in every locale
 
 const R = 1.5;
 const INK = 0x0a1218;

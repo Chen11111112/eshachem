@@ -2,12 +2,13 @@
 
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import { regions } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 import Reveal from "./Reveal";
 
 const Globe = dynamic(() => import("./Globe"), { ssr: false });
 
-export default function Partners() {
+export default function Partners({ locale }: { locale: Locale }) {
+  const { regions, partners: t } = content[locale];
   const [active, setActive] = useState(0);
   const paused = useRef(false);
 
@@ -17,7 +18,7 @@ export default function Partners() {
       if (!paused.current) setActive((i) => (i + 1) % regions.length);
     }, 4200);
     return () => clearInterval(id);
-  }, []);
+  }, [regions.length]);
 
   const region = regions[active];
 
@@ -27,10 +28,11 @@ export default function Partners() {
         <Reveal>
           <p className="font-mono text-xs uppercase tracking-[0.35em] text-brass">03 — Partners</p>
           <h2 className="mt-5 font-serif text-4xl font-bold leading-tight tracking-[0.08em] text-paper md:text-6xl">
-            連接世界，<span className="text-brass-soft">提供卓越</span>
+            {t.title[0]}
+            <span className="text-brass-soft">{locale === "en" ? " " : ""}{t.title[1]}</span>
           </h2>
           <p className="mt-6 max-w-2xl text-base leading-8 text-paper/70">
-            數十年來與世界各國原廠建立穩固的合作關係。各種化工原料代理報價、經銷，現貨、期貨皆可洽詢。
+            {t.lead}
           </p>
         </Reveal>
 
@@ -40,7 +42,7 @@ export default function Partners() {
           onPointerLeave={() => (paused.current = false)}
         >
           <div className="order-2 lg:order-1">
-            <div className="flex flex-wrap gap-2" role="tablist" aria-label="進口來源">
+            <div className="flex flex-wrap gap-2" role="tablist" aria-label={t.tablist}>
               {regions.map((r, i) => (
                 <button
                   key={r.id}
@@ -69,8 +71,8 @@ export default function Partners() {
               </div>
               <dl className="mt-6 space-y-4">
                 {region.makers.map((m, i) => (
-                  <div key={i} className="grid grid-cols-[5.5rem_1fr] gap-4 text-sm leading-7">
-                    <dt className="font-serif font-bold tracking-wider text-brass-soft">{m.maker ?? "進口品項"}</dt>
+                  <div key={i} className="grid grid-cols-[6.5rem_1fr] gap-4 text-sm leading-7">
+                    <dt className="font-serif font-bold tracking-wider text-brass-soft">{m.maker ?? t.itemsLabel}</dt>
                     <dd className="text-paper/75">{m.items}</dd>
                   </div>
                 ))}
@@ -92,16 +94,16 @@ export default function Partners() {
         <Reveal className="mt-16">
           <div className="flex flex-col items-start justify-between gap-6 border border-brass/30 bg-ink-2 p-8 md:flex-row md:items-center md:p-10">
             <div>
-              <h3 className="font-serif text-2xl font-bold tracking-[0.12em] text-paper">代辦進口・代理報價</h3>
+              <h3 className="font-serif text-2xl font-bold tracking-[0.12em] text-paper">{t.cta.title}</h3>
               <p className="mt-3 text-sm leading-7 text-paper/70">
-                各種特殊化學原料代尋或代辦進口，歡迎來電洽詢。
+                {t.cta.body}
               </p>
             </div>
             <a
               href="#contact"
               className="group inline-flex shrink-0 items-center gap-3 rounded-full bg-brass px-7 py-3 text-sm font-medium tracking-[0.2em] text-ink transition-colors hover:bg-brass-soft"
             >
-              聯絡我們
+              {t.cta.button}
               <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
             </a>
           </div>

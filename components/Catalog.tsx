@@ -2,14 +2,16 @@
 
 import { useMemo, useState } from "react";
 import raw from "@/lib/catalog.json";
+import { content, type Locale } from "@/lib/content";
 
 type Item = { code: string; en: string; zh: string; group: string };
 
+const OTHER = "*";
 const CJK = /[一-鿿]/;
 
 const items: Item[] = (raw as { code: string; en: string; zh: string }[]).map((r) => {
   // rows that only carry a Chinese trade name are the company's own formulated products
-  if (!r.code && !r.zh && CJK.test(r.en)) return { code: "", en: "", zh: r.en, group: "其他" };
+  if (!r.code && !r.zh && CJK.test(r.en)) return { code: "", en: "", zh: r.en, group: OTHER };
   if (!r.code) return { ...r, group: (r.en[0] ?? "#").toUpperCase() };
   return { ...r, group: r.code[0] };
 });
@@ -17,7 +19,9 @@ const items: Item[] = (raw as { code: string; en: string; zh: string }[]).map((r
 const groups = Array.from(new Set(items.map((i) => i.group)));
 const PAGE = 24;
 
-export default function Catalog() {
+export default function Catalog({ locale }: { locale: Locale }) {
+  const t = content[locale].catalog;
+  const isEn = locale === "en";
   const [q, setQ] = useState("");
   const [group, setGroup] = useState<string | null>(null);
   const [all, setAll] = useState(false);
@@ -36,12 +40,12 @@ export default function Catalog() {
     <div>
       <div className="flex flex-col gap-5 md:flex-row md:items-center md:justify-between">
         <label className="relative block w-full md:max-w-sm">
-          <span className="sr-only">搜尋產品</span>
+          <span className="sr-only">{t.searchLabel}</span>
           <input
             type="search"
             value={q}
             onChange={(e) => setQ(e.target.value)}
-            placeholder="搜尋中文、英文品名或編號…"
+            placeholder={t.placeholder}
             className="w-full border-b-2 border-ink/25 bg-transparent py-3 pr-10 text-base text-ink outline-none transition-colors placeholder:text-ink/40 focus:border-brass-deep"
           />
           <span className="pointer-events-none absolute right-1 top-1/2 -translate-y-1/2 text-ink/40" aria-hidden>
@@ -49,7 +53,7 @@ export default function Catalog() {
           </span>
         </label>
         <p className="font-mono text-xs tracking-[0.2em] text-ink/50" aria-live="polite">
-          {filtered.length} / {items.length} 品項
+          {t.count.replace("{n}", String(filtered.length)).replace("{total}", String(items.length))}
         </p>
       </div>
 
@@ -69,7 +73,7 @@ export default function Catalog() {
                 on ? "bg-ink text-paper" : "bg-ink/[0.06] text-ink/70 hover:bg-ink/15"
               }`}
             >
-              {g ?? "全部"}
+              {g === null ? t.all : g === OTHER ? t.other : g}
             </button>
           );
         })}
@@ -84,9 +88,9 @@ export default function Catalog() {
             <span className="w-11 shrink-0 font-mono text-[11px] text-brass-deep">{i.code || "—"}</span>
             <span className="min-w-0 flex-1">
               <span className="block font-serif text-[15px] font-bold tracking-wide text-ink">
-                {i.zh || i.en}
+                {isEn ? i.en || i.zh : i.zh || i.en}
               </span>
-              {i.zh && i.en && <span className="block truncate text-xs text-ink/55">{i.en}</span>}
+              {i.zh && i.en && <span className="block truncate text-xs text-ink/55">{isEn ? i.zh : i.en}</span>}
             </span>
           </li>
         ))}
@@ -94,7 +98,7 @@ export default function Catalog() {
 
       {filtered.length === 0 && (
         <p className="py-14 text-center text-sm leading-7 text-ink/60">
-          目錄中找不到「{q}」。我們也提供特殊化學原料代尋與代辦進口，歡迎直接來電洽詢。
+          {t.empty.replace("{q}", q)}
         </p>
       )}
 
@@ -105,7 +109,7 @@ export default function Catalog() {
             onClick={() => setAll(true)}
             className="rounded-full border border-ink/40 px-8 py-3 text-sm tracking-[0.2em] text-ink transition-colors hover:bg-ink hover:text-paper"
           >
-            展開全部 {filtered.length} 項
+            {t.expand.replace("{n}", String(filtered.length))}
           </button>
         </div>
       )}

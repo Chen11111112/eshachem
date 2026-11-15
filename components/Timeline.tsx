@@ -3,9 +3,10 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { history } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 
-export default function Timeline() {
+export default function Timeline({ locale }: { locale: Locale }) {
+  const history = content[locale].history.items;
   const root = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

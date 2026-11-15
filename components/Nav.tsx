@@ -1,9 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { company, nav } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 
-export default function Nav() {
+export default function Nav({ locale }: { locale: Locale }) {
+  const { company, nav, ui, langSwitch } = content[locale];
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
 
@@ -39,17 +40,25 @@ export default function Nav() {
               {company.short}
             </span>
             <span className="block font-mono text-[10px] uppercase tracking-[0.18em] text-mute">
-              {company.en}
+              {company.sub}
             </span>
           </span>
         </a>
 
-        <nav className="hidden items-center gap-8 lg:flex" aria-label="主選單">
+        <nav className="hidden items-center gap-8 lg:flex" aria-label={ui.menu}>
           {nav.map((n) => (
             <a key={n.href} href={n.href} className="ulink pb-1 text-sm tracking-[0.15em] text-paper/80 hover:text-paper">
               {n.label}
             </a>
           ))}
+          <a
+            href={langSwitch.href}
+            hrefLang={langSwitch.lang}
+            lang={langSwitch.lang}
+            className="ulink pb-1 font-mono text-xs tracking-[0.2em] text-brass-soft"
+          >
+            {langSwitch.label}
+          </a>
           <a
             href={company.telHref}
             className="rounded-full border border-brass/60 px-5 py-2 font-mono text-xs tracking-wider text-brass-soft transition-colors hover:bg-brass hover:text-ink"
@@ -61,7 +70,7 @@ export default function Nav() {
         <button
           type="button"
           className="relative h-10 w-10 lg:hidden"
-          aria-label={open ? "關閉選單" : "開啟選單"}
+          aria-label={open ? ui.closeMenu : ui.openMenu}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
         >
@@ -83,7 +92,7 @@ export default function Nav() {
           open ? "max-h-[80vh] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
-        <nav className="flex flex-col px-5 pb-8 pt-2" aria-label="行動版選單">
+        <nav className="flex flex-col px-5 pb-8 pt-2" aria-label={ui.menu}>
           {nav.map((n) => (
             <a
               key={n.href}
@@ -94,9 +103,19 @@ export default function Nav() {
               {n.label}
             </a>
           ))}
-          <a href={company.telHref} className="mt-6 font-mono text-sm tracking-wider text-brass-soft">
-            {company.tel}
-          </a>
+          <div className="mt-6 flex items-center justify-between">
+            <a href={company.telHref} className="font-mono text-sm tracking-wider text-brass-soft">
+              {company.tel}
+            </a>
+            <a
+              href={langSwitch.href}
+              hrefLang={langSwitch.lang}
+              lang={langSwitch.lang}
+              className="rounded-full border border-paper/30 px-4 py-1.5 font-mono text-xs tracking-[0.2em] text-paper"
+            >
+              {langSwitch.label}
+            </a>
+          </div>
         </nav>
       </div>
     </header>

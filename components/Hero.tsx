@@ -2,13 +2,15 @@
 
 import dynamic from "next/dynamic";
 import type { CSSProperties } from "react";
-import { company } from "@/lib/data";
+import { content, type Locale } from "@/lib/content";
 
 const HeroScene = dynamic(() => import("./HeroScene"), { ssr: false });
 
 const d = (ms: number) => ({ "--d": `${ms}ms` }) as CSSProperties;
 
-export default function Hero() {
+export default function Hero({ locale }: { locale: Locale }) {
+  const { company, hero } = content[locale];
+  const gap = locale === "en" ? "mr-[0.22em]" : "";
   return (
     <section id="top" className="relative flex min-h-[100svh] items-center overflow-hidden bg-ink">
       <div
@@ -29,18 +31,18 @@ export default function Hero() {
 
       <div className="relative mx-auto w-full max-w-7xl px-5 pb-24 pt-32 md:px-10">
         <p className="fade-up font-mono text-xs uppercase tracking-[0.4em] text-brass" style={d(200)}>
-          Since 1978 · Taipei, Taiwan
+          {hero.eyebrow}
         </p>
 
         <h1 className="mt-6 font-serif font-black leading-[1.05] tracking-[0.06em] text-paper">
-          <span className="rise-mask">
-            <span className="rise text-[19vw] sm:text-8xl lg:text-[9.5rem]" style={d(350)}>
-              益協
+          <span className={`rise-mask ${gap}`}>
+            <span className={`rise ${hero.titleSize}`} style={d(350)}>
+              {hero.title[0]}
             </span>
           </span>
           <span className="rise-mask">
-            <span className="rise text-[19vw] text-brass-soft sm:text-8xl lg:text-[9.5rem]" style={d(480)}>
-              實業
+            <span className={`rise text-brass-soft ${hero.titleSize}`} style={d(480)}>
+              {hero.title[1]}
             </span>
           </span>
         </h1>
@@ -49,8 +51,7 @@ export default function Hero() {
           {company.motto}
         </p>
         <p className="fade-up mt-5 max-w-xl text-[15px] leading-8 text-paper/65" style={d(1050)}>
-          自 1978 年創立於台北迪化街，專營各行業化學品的進口與行銷。
-          近半世紀，以誠信串起世界原廠與台灣產業。
+          {hero.lead}
         </p>
 
         <div className="fade-up mt-10 flex flex-wrap items-center gap-4" style={d(1200)}>
@@ -58,14 +59,14 @@ export default function Hero() {
             href="#catalog"
             className="group inline-flex items-center gap-3 rounded-full bg-brass px-8 py-3.5 text-sm font-medium tracking-[0.25em] text-ink transition-colors hover:bg-brass-soft"
           >
-            產品目錄
+            {hero.primary}
             <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
           </a>
           <a
             href="#contact"
             className="inline-flex items-center rounded-full border border-paper/30 px-8 py-3.5 text-sm tracking-[0.25em] text-paper transition-colors hover:border-paper hover:bg-paper hover:text-ink"
           >
-            聯絡我們
+            {hero.secondary}
           </a>
         </div>
       </div>
