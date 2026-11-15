@@ -80,7 +80,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
         </section>
 
         {/* about */}
-        <section id="about" className="paper-grain bg-paper py-24 text-ink md:py-36">
+        <section id="about" className="paper-grain overflow-hidden bg-paper py-24 text-ink md:py-36">
           <div className="mx-auto max-w-[104rem] px-4 md:px-8">
             <div className="grid gap-14 lg:grid-cols-[minmax(0,5fr)_minmax(0,6fr)] lg:gap-20">
               <SectionHead index="01" en="About" title={<>{t.about.title[0]}<br />{t.about.title[1]}</>} />
@@ -97,7 +97,7 @@ export default function HomePage({ locale }: { locale: Locale }) {
                   {t.about.body[1]}
                 </p>
                 <div
-                  className="stamp absolute -top-4 right-0 grid h-20 w-20 place-items-center rounded-[4px] border-[3px] border-seal font-serif text-2xl font-black leading-[1.1] text-seal md:-top-8 md:h-24 md:w-24 md:text-3xl"
+                  className="stamp absolute -top-4 right-1 grid h-20 w-20 place-items-center rounded-[4px] border-[3px] border-seal font-serif text-2xl font-black leading-[1.1] text-seal md:-top-8 md:h-24 md:w-24 md:text-3xl"
                   style={{ "--d": "500ms" } as React.CSSProperties}
                   aria-hidden
                 >

@@ -29,6 +29,14 @@ body {
   overflow-x: hidden;
 }
 
+/* Nothing may widen the page: on phones any overflow enlarges the layout viewport
+   and lets the user pan sideways. `clip` (unlike `hidden`) also holds on iOS. */
+html,
+body {
+  max-width: 100%;
+  overflow-x: clip;
+}
+
 ::selection {
   background: #c9a35a;
   color: #0a1218;
